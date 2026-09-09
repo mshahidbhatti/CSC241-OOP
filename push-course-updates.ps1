@@ -1,9 +1,15 @@
+param(
+    [string]$Note = ""
+)
+
 # ==========================================================
-# CSC241 GitHub Update Script
+# CSC241 - GitHub Course Repository Update
 # Dr. Muhammad Shahid Bhatti
 # ==========================================================
 
 $RepoPath = "C:\Teaching\Fall2026\CSC241-OOP"
+$MaxAttempts = 5
+$RetryDelay = 5
 
 Set-Location $RepoPath
 
@@ -14,17 +20,14 @@ Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host ""
 
 # ----------------------------------------------------------
-# Verify this is a Git repository
+# Verify Git repository
 # ----------------------------------------------------------
 if (-not (Test-Path ".git")) {
-    Write-Host "ERROR: .git folder was not found." -ForegroundColor Red
-    Write-Host "Expected repository: $RepoPath"
+    Write-Host "ERROR: This folder is not a Git repository." -ForegroundColor Red
+    Write-Host $RepoPath
     exit 1
 }
 
-# ----------------------------------------------------------
-# Detect current branch
-# ----------------------------------------------------------
 $Branch = git branch --show-current
 
 if ([string]::IsNullOrWhiteSpace($Branch)) {
@@ -36,8 +39,7 @@ Write-Host "Branch     : $Branch"
 Write-Host ""
 
 # ----------------------------------------------------------
-# Stage all new, changed and deleted files
-# .gitignore rules will still be respected
+# Stage all changes
 # ----------------------------------------------------------
 Write-Host "Checking local changes..." -ForegroundColor Yellow
 
@@ -45,38 +47,36 @@ git add -A
 
 $ChangedFiles = git diff --cached --name-only
 
+# ----------------------------------------------------------
+# Commit if changes exist
+# ----------------------------------------------------------
 if ($ChangedFiles) {
 
     Write-Host ""
-    Write-Host "Files to be committed:" -ForegroundColor Green
+    Write-Host "Files being committed:" -ForegroundColor Green
+
     $ChangedFiles | ForEach-Object {
         Write-Host "  $_"
     }
 
-    # ------------------------------------------------------
-    # Dynamic commit message based on current date/time
-    # ------------------------------------------------------
-    $DateStamp = Get-Date -Format "yyyy-MM-dd"
-    $TimeStamp = Get-Date -Format "HH:mm"
+    $DateTime = Get-Date -Format "yyyy-MM-dd HH:mm"
 
-    # Optional text passed when running the script
-    if ($args.Count -gt 0) {
-        $CustomNote = $args -join " "
-        $CommitMessage = "CSC241 update - $DateStamp $TimeStamp - $CustomNote"
+    if ([string]::IsNullOrWhiteSpace($Note)) {
+        $CommitMessage = "CSC241 course update - $DateTime"
     }
     else {
-        $CommitMessage = "CSC241 course materials update - $DateStamp $TimeStamp"
+        $CommitMessage = "CSC241 update - $DateTime - $Note"
     }
 
     Write-Host ""
     Write-Host "Commit message:" -ForegroundColor Cyan
     Write-Host "  $CommitMessage"
+    Write-Host ""
 
     git commit -m "$CommitMessage"
 
     if ($LASTEXITCODE -ne 0) {
-        Write-Host ""
-        Write-Host "Commit failed. Repository was not pushed." -ForegroundColor Red
+        Write-Host "Commit failed. Nothing was pushed." -ForegroundColor Red
         exit 1
     }
 }
@@ -85,36 +85,95 @@ else {
 }
 
 # ----------------------------------------------------------
-# Synchronize with GitHub before pushing
+# Pull/rebase with retry
 # ----------------------------------------------------------
 Write-Host ""
 Write-Host "Synchronizing with GitHub..." -ForegroundColor Yellow
 
-git pull --rebase origin $Branch
+$PullSucceeded = $false
 
-if ($LASTEXITCODE -ne 0) {
+for ($i = 1; $i -le $MaxAttempts; $i++) {
+
+    Write-Host "Pull attempt $i of $MaxAttempts..."
+
+    git -c http.version=HTTP/1.1 pull --rebase origin $Branch
+
+    if ($LASTEXITCODE -eq 0) {
+        $PullSucceeded = $true
+        break
+    }
+
+    # Stop retrying if there is an actual merge/rebase conflict
+    $Conflicts = git diff --name-only --diff-filter=U
+
+    if ($Conflicts) {
+        Write-Host ""
+        Write-Host "A Git conflict was detected:" -ForegroundColor Red
+        $Conflicts | ForEach-Object {
+            Write-Host "  $_"
+        }
+
+        Write-Host ""
+        Write-Host "Resolve the conflict before running this script again."
+        exit 1
+    }
+
+    if ($i -lt $MaxAttempts) {
+        Write-Host "GitHub connection failed. Retrying in $RetryDelay seconds..." -ForegroundColor Yellow
+        Start-Sleep -Seconds $RetryDelay
+    }
+}
+
+if (-not $PullSucceeded) {
     Write-Host ""
-    Write-Host "Git pull/rebase failed." -ForegroundColor Red
-    Write-Host "There may be a merge conflict that needs manual attention."
+    Write-Host "Unable to contact GitHub after $MaxAttempts attempts." -ForegroundColor Red
+    Write-Host "Your local commit is safe."
+    Write-Host "Run this script again when the connection improves."
     exit 1
 }
 
 # ----------------------------------------------------------
-# Push
+# Push with retry
 # ----------------------------------------------------------
 Write-Host ""
 Write-Host "Pushing to GitHub..." -ForegroundColor Yellow
 
-git push origin $Branch
+$PushSucceeded = $false
 
-if ($LASTEXITCODE -eq 0) {
-    Write-Host ""
-    Write-Host "=============================================" -ForegroundColor Green
-    Write-Host " GitHub repository updated successfully." -ForegroundColor Green
-    Write-Host "=============================================" -ForegroundColor Green
+for ($i = 1; $i -le $MaxAttempts; $i++) {
+
+    Write-Host "Push attempt $i of $MaxAttempts..."
+
+    git -c http.version=HTTP/1.1 push origin $Branch
+
+    if ($LASTEXITCODE -eq 0) {
+        $PushSucceeded = $true
+        break
+    }
+
+    if ($i -lt $MaxAttempts) {
+        Write-Host "GitHub connection failed. Retrying in $RetryDelay seconds..." -ForegroundColor Yellow
+        Start-Sleep -Seconds $RetryDelay
+    }
 }
-else {
+
+if (-not $PushSucceeded) {
     Write-Host ""
-    Write-Host "Push failed." -ForegroundColor Red
+    Write-Host "Unable to push after $MaxAttempts attempts." -ForegroundColor Red
+    Write-Host "Your commit remains safely stored on this computer."
     exit 1
 }
+
+# ----------------------------------------------------------
+# Final confirmation
+# ----------------------------------------------------------
+Write-Host ""
+Write-Host "=============================================" -ForegroundColor Green
+Write-Host " GitHub repository updated successfully." -ForegroundColor Green
+Write-Host "=============================================" -ForegroundColor Green
+Write-Host ""
+
+git status -sb
+
+Write-Host ""
+Write-Host "Finished."
