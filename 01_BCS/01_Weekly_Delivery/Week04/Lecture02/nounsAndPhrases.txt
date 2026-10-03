@@ -1,0 +1,16 @@
+First, identify the nouns and noun phrases:
+Member, member ID, book, title, physical book copy, copy ID, availability, borrowing request, loan record, borrowing date, due date and status.
+Then consider what each noun represents:
+- Member, Book, BookCopy and Loan are candidate classes.
+- Member ID, title, copy ID, availability, dates and status are candidate fields.
+- Borrowing request describes the operation we want to perform. It does not need a separate class in this simple exercise.
+These decisions are provisional. We will check them against the responsibilities and interactions.
+Next, identify the verbs and actions:
+A member requests borrowing. The system checks whether the member already has a loan and whether the copy is available. It accepts or rejects the request. After acceptance, it creates a loan, marks the copy unavailable and records the loan for the member.
+Now ask who should perform each action:
+- Member answers whether it already has a current loan.
+- BookCopy checks its availability and becomes unavailable after accepting borrowing.
+- Loan records the member, copy, dates and status.
+- LibraryDesk coordinates the request by asking these objects to perform their work.
+LibraryDesk is a coordinator introduced during design; it is not one of the nouns explicitly mentioned in the scenario.
+Notice the difference between an action and a relationship: “checks availability” describes behavior, while “a copy belongs to a book” describes an association.

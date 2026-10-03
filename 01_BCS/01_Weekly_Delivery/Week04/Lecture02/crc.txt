@@ -1,0 +1,17 @@
+A responsibility describes what an object knows or does. A collaborator is another object it needs to perform its work.
+Member
+A Member knows its member ID and remembers its current loan. It can answer whether it already has a loan and store a reference to a newly created loan.
+Its collaborator is Loan, because the member’s current borrowing record is a Loan object.
+Book
+A Book knows the title and provides that information when needed.
+For this exercise, it needs no collaborator to provide its title.
+BookCopy
+A BookCopy knows its copy ID, the Book it belongs to and whether it is available. It checks its own availability before accepting borrowing. After acceptance, it marks itself unavailable.
+Its collaborator is Book, which holds the title information. Checking availability uses BookCopy’s own state.
+Loan
+A Loan knows the borrowing member, the physical copy, the borrowing date, the due date and the loan status. It represents a successful borrowing relationship.
+Its collaborators are Member and BookCopy, because each Loan connects one member with one physical copy.
+LibraryDesk
+LibraryDesk coordinates the borrowing request. It asks whether the member already has a loan, asks the copy to accept borrowing, creates a Loan after acceptance and records that loan for the member.
+Its collaborators are Member, BookCopy and Loan.
+The main ownership decision is: BookCopy controls availability, Member remembers its current loan, and LibraryDesk coordinates their work.

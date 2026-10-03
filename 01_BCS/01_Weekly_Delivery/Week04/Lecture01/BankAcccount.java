@@ -9,7 +9,7 @@ class BankAccount{
 
 	// class variables
 	private static int counter=0;
-	private static String bankName="IBL";
+	static String bankName="IBL";
 
 	public BankAccount(String title,double balance){
 		accountID="00"+(++counter);

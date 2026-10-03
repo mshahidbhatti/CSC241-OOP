@@ -1,0 +1,28 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="5XhRTg-RT-rLvpPirkup">
+    <mxGraphModel dx="389" dy="236" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MKaCWwI_75NKa64mkXPq-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="Person" vertex="1">
+          <mxGeometry height="154" width="202" x="298" y="164" as="geometry" />
+        </mxCell>
+        <mxCell id="MKaCWwI_75NKa64mkXPq-2" parent="MKaCWwI_75NKa64mkXPq-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="-id: String" vertex="1">
+          <mxGeometry height="25" width="202" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="MKaCWwI_75NKa64mkXPq-3" parent="MKaCWwI_75NKa64mkXPq-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="-name: String" vertex="1">
+          <mxGeometry height="25" width="202" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="MKaCWwI_75NKa64mkXPq-5" parent="MKaCWwI_75NKa64mkXPq-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="-email: String" vertex="1">
+          <mxGeometry height="25" width="202" y="79" as="geometry" />
+        </mxCell>
+        <mxCell id="MKaCWwI_75NKa64mkXPq-6" parent="MKaCWwI_75NKa64mkXPq-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="-dob: String" vertex="1">
+          <mxGeometry height="25" width="202" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="MKaCWwI_75NKa64mkXPq-7" parent="MKaCWwI_75NKa64mkXPq-1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="city: String" vertex="1">
+          <mxGeometry height="25" width="202" y="129" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
