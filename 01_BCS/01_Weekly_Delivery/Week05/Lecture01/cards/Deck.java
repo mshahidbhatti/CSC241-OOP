@@ -2,6 +2,7 @@ import java.util.Random;
 public class Deck{
 
 	Card cards[];
+    private int nextCard;
 
 	String suits[]={"Spades","Clubs","Diamonds","Hearts"};
 	String ranks[]={"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
@@ -27,14 +28,27 @@ public class Deck{
 		Random ran=new Random();
 		for(int i=0;i<7000;i++){
 			int r=ran.nextInt(52);
-
 			Card temp=cards[r];
 			cards[r]=cards[0];
 			cards[0]=temp;
 			//System.out.println(r);
 		}
-	
 	}
+
+    public Card dealCard() {
+        if (nextCard >= cards.length) {
+            return null;
+        }
+
+        Card card = cards[nextCard];
+        nextCard++;
+
+        return card;
+    }
+
+    public int getRemainingCards() {
+        return cards.length - nextCard;
+    }
 
 
 }
