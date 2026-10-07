@@ -1,3 +1,4 @@
+import java.util.Random;
 public class Deck{
 
 	Card cards[];
@@ -21,6 +22,18 @@ public class Deck{
 			cards[i].display();
 
 
+	}
+	public void shuffle(){
+		Random ran=new Random();
+		for(int i=0;i<7000;i++){
+			int r=ran.nextInt(52);
+
+			Card temp=cards[r];
+			cards[r]=cards[0];
+			cards[0]=temp;
+			//System.out.println(r);
+		}
+	
 	}
 
 

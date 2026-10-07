@@ -8,11 +8,14 @@ public class Demo{
 
 		Deck deck=new Deck();
 
-		deck.display();
+//		deck.display();
 
 	//	System.out.println(deck.cards.length);
 	//	System.out.println(deck.cards[0]);
 	 // System.out.println(deck.cards[1]);
+
+		deck.shuffle();	
+		deck.display();	
 
 	}
 
