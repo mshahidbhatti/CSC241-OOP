@@ -1,0 +1,71 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+left to right direction
+
+class CinemaCity {
+  - name : String
+  - cinemas : Cinema[]
+  - cinemaCount : int
+  + CinemaCity(name : String, maximumCinemas : int)
+  + addCinema(cinema : Cinema) : void
+  + getCinema(index : int) : Cinema
+  + printDirectory() : void
+}
+class Cinema {
+  - name : String
+  - city : String
+  - screens : Screen[]
+  - screenCount : int
+  + Cinema(name : String, city : String, maximumScreens : int)
+  + addScreen(screenNumber : int, type : ScreenType, layout : int[]) : Screen
+  + getScreen(screenNumber : int) : Screen
+  + printScreens() : void
+}
+class Screen {
+  - screenNumber : int
+  - type : ScreenType
+  - seats : Seat[][]
+  + Screen(screenNumber : int, type : ScreenType, seatsPerRow : int[])
+  + findSeat(rowLetter : char, seatNumber : int) : Seat
+  + configureSeat(rowLetter : char, seatNumber : int, type : SeatType, basePrice : double, wheelchairAccessible : boolean) : boolean
+  + printSeatMap() : void
+}
+class Seat {
+  - rowLetter : char
+  - seatNumber : int
+  - type : SeatType
+  - basePrice : double
+  - wheelchairAccessible : boolean
+  - outOfService : boolean
+  + getLabel() : String
+  + getType() : SeatType
+  + setOutOfService(value : boolean) : void
+  + isAvailableForUse() : boolean
+}
+enum SeatType {
+  STANDARD
+  PREMIUM
+  VIP
+}
+enum ScreenType {
+  REGULAR
+  THREE_D
+  IMAX
+}
+
+CinemaCity "0..*" o-- "0..*" Cinema : lists (shared aggregation)
+Cinema "1" *-- "0..*" Screen : creates / owns
+Screen "1" *-- "1..*" Seat : creates / owns
+Seat ..> SeatType : type
+Screen ..> ScreenType : type
+note bottom of Screen
+Rows may have different lengths.
+The Java attribute is Seat[][] (ragged 2D array).
+end note
+note right of Seat
+A1 is unique within one Screen.
+Booking status belongs to a Showtime, not to Seat.
+end note
+@enduml

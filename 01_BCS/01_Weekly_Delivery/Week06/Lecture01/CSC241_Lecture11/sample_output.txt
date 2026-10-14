@@ -1,0 +1,26 @@
+
+========== CinemaCity Directory ==========
+Central Cinema (Lahore):
+  Screen 1 [IMAX]: 23 seats
+  Screen 2 [REGULAR]: 15 seats
+Capital Cinema (Islamabad):
+  Screen 1 [THREE_D]: 17 seats
+
+======== Screen 1 [IMAX] ========
+               MOVIE SCREEN (front)
+Row A | [A1-S* ] [A2-S  ] [A3-S  ] [A4-S  ] 
+Row B | [B1-S  ] [B2-S  ] [B3-S  ] [B4-S  ] [B5-S  ] [B6-P  ] 
+Row C | [C1-P  ] [C2-P  ] [C3-X  ] [C4-P  ] [C5-P  ] [C6-P  ] [C7-P  ] [C8-P  ] 
+Row D | [D1-V  ] [D2-V  ] [D3-V  ] [D4-V  ] [D5-V  ] 
+Total: 23 seats; S=Standard P=Premium V=VIP X=out of service *=accessible
+
+Row A seat count: 4
+Row C seat count: 8
+Total seats: 23
+Seat B6: B6 [PREMIUM, example PKR 1100.0, wheelchair accessible=false, out of service=false]
+Seat A6 exists? false
+
+first == second? true
+C3 available for physical use? false
+Directory references original Lahore cinema? true
+Enum category of B6: PREMIUM

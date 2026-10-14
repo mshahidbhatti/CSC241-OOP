@@ -1,0 +1,55 @@
+classDiagram
+  direction TB
+  class CinemaCity {
+    -String name
+    -Cinema[] cinemas
+    -int cinemaCount
+    +addCinema(Cinema cinema) void
+    +getCinema(int index) Cinema
+    +printDirectory() void
+  }
+  class Cinema {
+    -String name
+    -String city
+    -Screen[] screens
+    -int screenCount
+    +addScreen(int number, ScreenType type, int[] layout) Screen
+    +getScreen(int screenNumber) Screen
+    +printScreens() void
+  }
+  class Screen {
+    -int screenNumber
+    -ScreenType type
+    -Seat[][] seats
+    +findSeat(char rowLetter, int seatNumber) Seat
+    +configureSeat(char row, int number, SeatType type, double price, boolean accessible) boolean
+    +printSeatMap() void
+  }
+  class Seat {
+    -char rowLetter
+    -int seatNumber
+    -SeatType type
+    -double basePrice
+    -boolean wheelchairAccessible
+    -boolean outOfService
+    +getLabel() String
+    +getType() SeatType
+    +isAvailableForUse() boolean
+  }
+  class SeatType {
+    <<enumeration>>
+    STANDARD
+    PREMIUM
+    VIP
+  }
+  class ScreenType {
+    <<enumeration>>
+    REGULAR
+    THREE_D
+    IMAX
+  }
+  CinemaCity "0..*" o-- "0..*" Cinema : lists
+  Cinema "1" *-- "0..*" Screen : owns
+  Screen "1" *-- "1..*" Seat : owns
+  Seat ..> SeatType : type
+  Screen ..> ScreenType : type
