@@ -6,6 +6,11 @@ public class Demo{
 		Rectangle r1= new Rectangle(5,10);
 		Rectangle r2= new Rectangle(5,11);
 
+		Rectangle r3=new Rectangle(r2);
+
+
+
+
 
 		Integer i=40;
 		Object temp=new Object();

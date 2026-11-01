@@ -12,7 +12,9 @@ public class Product{
 	@Override
 	public String toString(){
 		
-		return Integer.parseInt(pid);
+		return pid+"";
 	}
+
+	
 
 }

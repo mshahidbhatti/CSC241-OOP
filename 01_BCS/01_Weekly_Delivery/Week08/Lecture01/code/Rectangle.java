@@ -3,6 +3,7 @@ public class Rectangle{
 	double length;
 	double width;
 
+
 	Rectangle (Rectangle other){
 		this.length=other.length;
 		this.width=other.width;
@@ -18,6 +19,17 @@ public class Rectangle{
 		Rectangle tempR= (Rectangle)o;		
 		
 		return this.length==tempR.length && this.width==tempR.width;
+	}
+
+
+	public Rectangle createCopy(Rectangle other){
+		Rectangle temp=new Rectangle();
+
+		temp.length=other.length;
+		temp.width=other.width;
+		return temp;
+		
+
 	}
 
 
