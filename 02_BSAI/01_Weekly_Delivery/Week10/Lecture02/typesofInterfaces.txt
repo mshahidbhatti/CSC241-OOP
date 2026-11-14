@@ -1,0 +1,4 @@
+Type	Abstract methods	Examples shipped with Java
+Normal / Regular	Usually multiple	List, Set, Map, Collection
+Functional	Exactly one	Runnable, Comparator, Callable, Predicate
+Marker	Zero	Serializable, Cloneable, RandomAccess
